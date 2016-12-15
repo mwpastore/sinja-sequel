@@ -240,10 +240,17 @@ end
 **Note that registering the extension will automatically include Helpers!**
 
 After registering the extension, the `resource`, `has_many`, and `has_one` DSL
-keywords will generate basic action helpers. The default `create` action helper
-does not support client-generated IDs. These action helpers can be subsequently
-overridden, customized by setting action helper options (i.e. `:roles`) and/or
-defining `before_<action>` hooks, or removed entirely with `remove_<action>`.
+keywords will generate basic action helpers.
+
+* `resource` and `has_many` take an optional second argument that specifies the
+  method to use to cast the ID of the resource or each resource identifier
+  object (`:to_i` by default).
+
+* The generated `create` action helper does not support client-generated IDs.
+
+These action helpers can be subsequently overridden, customized by setting
+action helper options (i.e. `:roles`) and/or defining `before_<action>` hooks,
+or removed entirely with `remove_<action>`.
 
 ## Development
 

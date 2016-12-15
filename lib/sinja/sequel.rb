@@ -80,7 +80,7 @@ module Sinja
         end
       end
 
-      def has_many(rel, &block)
+      def has_many(rel, try_convert=:to_i, &block)
         super(rel) do
           fetch do
             resource.send("#{rel}_dataset")
@@ -91,15 +91,15 @@ module Sinja
           end
 
           replace(:sideload_on=>:update) do |rios|
-            add_remove(rel, rios)
+            add_remove(rel, rios, try_convert)
           end
 
           merge(:sideload_on=>:create) do |rios|
-            add_missing(rel, rios)
+            add_missing(rel, rios, try_convert)
           end
 
           subtract do |rios|
-            remove_present(rel, rios)
+            remove_present(rel, rios, try_convert)
           end
 
           instance_eval(&block) if block
