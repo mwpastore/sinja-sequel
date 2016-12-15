@@ -91,7 +91,7 @@ class Bar < Sequel::Model
 end
 ```
 
-See "Avoding Null Foreign Keys" in the [Sinja][1] documentation for more
+See "Avoiding Null Foreign Keys" in the [Sinja][1] documentation for more
 information.
 
 Finally, enable the `:pagination` extension on your connection (before
@@ -99,7 +99,7 @@ prepending Core) to enable pagination!
 
 ### Core
 
-Prepend [Sinja::Sequel::Core](/extensions/sequel/lib/sinja/sequel/core.rb)
+Prepend [Sinja::Sequel::Core](/lib/sinja/sequel/core.rb)
 after registering Sinja:
 
 ```ruby
@@ -151,7 +151,7 @@ Sequel plugins and features.
 ### Helpers
 
 Include
-[Sinja::Sequel::Helpers](/extensions/sequel/lib/sinja/sequel/helpers.rb) after
+[Sinja::Sequel::Helpers](/lib/sinja/sequel/helpers.rb) after
 registering Sinja:
 
 ```ruby
@@ -224,7 +224,7 @@ breeze!
 
 ### Extension
 
-Register [Sinja::Sequel](/extensions/sequel/lib/sinja/sequel.rb) after
+Register [Sinja::Sequel](/lib/sinja/sequel.rb) after
 registering Sinja:
 
 ```ruby
