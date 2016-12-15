@@ -33,6 +33,7 @@ out. Testers and community contributions welcome!
     - [`remove_present`](#remove_present)
     - [`add_remove`](#add_remove)
   - [Extension](#extension)
+  - [Pagination](#pagination)
 - [Development](#development)
 - [Contributing](#contributing)
 - [License](#license)
@@ -254,6 +255,38 @@ keywords will generate basic action helpers.
 These action helpers can be subsequently overridden, customized by setting
 action helper options (i.e. `:roles`) and/or defining `before_<action>` hooks,
 or removed entirely with `remove_<action>`.
+
+### Pagination
+
+Sinja::Sequel uses the first Sequel database to determine whether or not to
+enable pagination. If (and only if!) you have **multiple** databases in your
+application and only _some_ support pagination, you _may_ need to prepend
+[Sinja::Sequel::Pagination](/lib/sinja/sequel/pagination.rb) after prepending
+Core, including Helpers, or registering Sinja:
+
+```ruby
+require 'sinja'
+require 'sinja/sequel'
+require 'sinja/sequel/pagination'
+
+DB = Sequel.connect ENV['DB_URL']
+
+OTHER_DB = Sequel.connect ENV['OTHER_DB_URL']
+OTHER_DB.extension :pagination
+
+class MyApp < Sinatra::Base
+  register Sinja
+  register Sinja::Sequel
+
+  helpers do
+    prepend Sinja::Sequel::Pagination
+
+    def database
+      OTHER_DB
+    end
+  end
+end
+```
 
 ## Development
 
