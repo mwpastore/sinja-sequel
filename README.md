@@ -270,7 +270,7 @@ git commits and tags, and push the `.gem` file to
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at
-https://github.com/mwpastore/sinja.
+https://github.com/mwpastore/sinja-sequel.
 
 ## License
 
