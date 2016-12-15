@@ -248,6 +248,9 @@ keywords will generate basic action helpers.
 
 * The generated `create` action helper does not support client-generated IDs.
 
+* Optionally define a `settable_fields` helper in each resource that returns an
+  array of symbols to pass to `Sequel::Model#set_fields`.
+
 These action helpers can be subsequently overridden, customized by setting
 action helper options (i.e. `:roles`) and/or defining `before_<action>` hooks,
 or removed entirely with `remove_<action>`.
