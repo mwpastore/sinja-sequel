@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-require 'sinja/sequel'
 require 'sinatra/jsonapi'
+require 'sinja/sequel'
 
 module Sinatra
   register JSONAPI::Sequel

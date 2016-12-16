@@ -15,19 +15,23 @@ module Sinja
         register Resource
 
         helpers do
+          def dataset
+            klass.dataset
+          end
+
           def find(id)
-            klass[id.send(try_convert)]
+            dataset[id.send(try_convert)]
           end
         end
 
         show
 
         show_many do |ids|
-          klass.where(klass.primary_key=>ids.map(&try_convert)).all
+          dataset.where(klass.primary_key=>ids.map!(&try_convert)).all
         end
 
         index do
-          klass.dataset
+          dataset
         end
 
         create do |attr|

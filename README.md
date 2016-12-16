@@ -113,6 +113,10 @@ class MyApp < Sinatra::Base
   helpers do
     prepend Sinja::Sequel::Core
   end
+
+  # ..
+
+  freeze_jsonapi
 end
 ```
 
@@ -163,6 +167,10 @@ class MyApp < Sinatra::Base
   register Sinja
 
   helpers Sinja::Sequel::Helpers
+
+  # ..
+
+  freeze_jsonapi
 end
 ```
 
@@ -235,6 +243,10 @@ require 'sinja/sequel'
 class MyApp < Sinatra::Base
   register Sinja
   register Sinja::Sequel
+
+  # ..
+
+  freeze_jsonapi
 end
 ```
 
@@ -256,10 +268,34 @@ These action helpers can be subsequently overridden, customized by setting
 action helper options (i.e. `:roles`) and/or defining `before_<action>` hooks,
 or removed entirely with `remove_<action>`.
 
+Given a database connection and Foo, Bar, and Qux models and serializers,
+here's an example "classic"-style application using the extension:
+
+```ruby
+require 'sinatra/jsonapi/sequel'
+
+resource :foos do
+  has_many :bars
+  has_one :qux
+end
+
+resource :bars do
+  has_one :foo
+end
+
+resource :quxes do
+  has_many :foos
+end
+
+freeze_jsonapi
+```
+
+Pretty neat, huh?
+
 ### Pagination
 
 Sinja::Sequel uses the first Sequel database to determine whether or not to
-enable pagination. If (and only if!) you have **multiple** databases in your
+enable pagination. If (and only if!) you have _multiple_ databases in your
 application and only _some_ support pagination, you _may_ need to prepend
 [Sinja::Sequel::Pagination](/lib/sinja/sequel/pagination.rb) after prepending
 Core, including Helpers, or registering Sinja:
@@ -285,6 +321,10 @@ class MyApp < Sinatra::Base
       OTHER_DB
     end
   end
+
+  # ..
+
+  freeze_jsonapi
 end
 ```
 
