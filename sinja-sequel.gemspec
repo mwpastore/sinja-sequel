@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.3.0'
 
   spec.add_dependency 'sequel', '~> 4.0'
-  spec.add_dependency 'sinja', '>= 1.2.0.pre2', '< 2'
+  spec.add_dependency 'sinja', '~> 1.2'
 
   spec.add_development_dependency 'bundler', '~> 1.11'
   spec.add_development_dependency 'minitest', '~> 5.9'
