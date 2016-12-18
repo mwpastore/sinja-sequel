@@ -25,6 +25,7 @@ out. Testers and community contributions welcome!
 
 
 - [Installation](#installation)
+- [Best Practices](#best-practices)
 - [Usage](#usage)
   - [Core](#core)
   - [Helpers](#helpers)
@@ -60,7 +61,7 @@ Or install it yourself as:
 $ gem install sinja-sequel
 ```
 
-## Usage
+## Best Practices
 
 Always return Sequel datasets (instead of arrays of objects) from your `index`
 (e.g. `Foo.dataset`) and `fetch` (e.g.  `resource.bars_dataset`) action
@@ -98,10 +99,17 @@ information.
 Finally, enable the `:pagination` extension on your connection (before
 prepending Core) to enable pagination!
 
+## Usage
+
+Progressively opt-in to Sinja::Sequel's features by enabling (1) Core, (2)
+Helpers and Core (the most common use-case), or (3) Extension, Helpers, and
+Core. (Pagination is automatically enabled with Core, but may need to be
+manually enabled under certain circumstances, detailed below).
+
 ### Core
 
-Prepend [Sinja::Sequel::Core](/lib/sinja/sequel/core.rb)
-after registering Sinja:
+Prepend [Sinja::Sequel::Core](/lib/sinja/sequel/core.rb) after registering
+Sinja:
 
 ```ruby
 require 'sinja'
@@ -125,7 +133,7 @@ a normal module of Sinatra helpers) in order to ensure that the included
 methods take precedence over Sinja's method stubs (e.g. `transaction`).
 [This][4] will hopefully be fixed in a future version of Sinatra.
 
-Prepending Core does the following to your application:
+Prepending Core has the following effects on your application:
 
 * Configures `conflict_`, `not_found_`, and `validation_exceptions`, and
   `validation_formatter`.
@@ -174,8 +182,7 @@ class MyApp < Sinatra::Base
 end
 ```
 
-This is the most common use-case. **Note that including Helpers will
-automatically prepend Core!**
+**Note that including Helpers will automatically prepend Core!**
 
 #### `next_pk`
 
@@ -294,7 +301,7 @@ Pretty neat, huh?
 
 ### Pagination
 
-Sinja::Sequel uses the first Sequel database to determine whether or not to
+Sinja::Sequel inspects the first Sequel database to determine whether or not to
 enable pagination. If (and only if!) you have _multiple_ databases in your
 application and only _some_ support pagination, you _may_ need to prepend
 [Sinja::Sequel::Pagination](/lib/sinja/sequel/pagination.rb) after prepending
