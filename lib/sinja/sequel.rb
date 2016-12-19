@@ -15,7 +15,7 @@ module Sinja
         register Resource
 
         helpers do
-          def dataset
+          define_method(:dataset) do
             klass.dataset
           end
 
