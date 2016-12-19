@@ -19,7 +19,7 @@ module Sinja
             klass.dataset
           end
 
-          def find(id)
+          define_method(:find) do |id|
             dataset[id.send(try_convert)]
           end
         end
