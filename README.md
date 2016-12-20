@@ -104,7 +104,7 @@ prepending Core) to enable pagination!
 Progressively opt-in to Sinja::Sequel's features by enabling (1) Core, (2)
 Helpers and Core (the most common use-case), or (3) Extension, Helpers, and
 Core. (Pagination is automatically enabled with Core, but may need to be
-manually enabled under certain circumstances, detailed below).
+manually enabled under certain circumstances, detailed below.)
 
 ### Core
 
@@ -266,10 +266,12 @@ keywords will generate basic action helpers.
   method to use to cast the ID of the resource or each resource identifier
   object (`:to_i` by default).
 
-* The generated `create` action helper does not support client-generated IDs.
-
 * Optionally define a `settable_fields` helper in each resource that returns an
   array of symbols to pass to `Sequel::Model#set_fields`.
+
+* The generated action helpers will be unrestricted by default.
+
+* The generated `create` action helper does not support client-generated IDs.
 
 These action helpers can be subsequently overridden, customized by setting
 action helper options (i.e. `:roles`) and/or defining `before_<action>` hooks,
