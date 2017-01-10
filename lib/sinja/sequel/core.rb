@@ -14,7 +14,11 @@ module Sinja
           c.conflict_exceptions << ::Sequel::ConstraintViolation
           c.not_found_exceptions << ::Sequel::NoMatchingRow
           c.validation_exceptions << ::Sequel::ValidationFailed
-          c.validation_formatter = ->(e) { e.errors.keys.zip(e.errors.full_messages) }
+          c.validation_formatter = proc do |e|
+            lookup = e.model.class.associations.to_set
+            e.errors.keys.zip(e.errors.full_messages)
+              .map { |a| a << :relationships if lookup.include?(a.first) }
+          end
         end
 
         base.prepend Pagination if ::Sequel::Model.db.dataset.respond_to?(:paginate)
