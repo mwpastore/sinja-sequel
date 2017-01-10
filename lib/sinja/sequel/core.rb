@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 require 'forwardable'
+require 'set'
+
 require 'sequel'
 
 require_relative 'pagination'
