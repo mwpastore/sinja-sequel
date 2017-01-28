@@ -238,6 +238,10 @@ Like `add_missing` and `remove_present`, but performs an efficient delta
 operation on the collection. Makes writing your `replace` action helpers a
 breeze!
 
+An optional block passed to this method will be used to filter both adds and
+removes. To use different filters for the two operations, pass a hash of
+callables (with keys `:add` and/or `:remove`).
+
 ### Extension
 
 Register [Sinja::Sequel](/lib/sinja/sequel.rb) after

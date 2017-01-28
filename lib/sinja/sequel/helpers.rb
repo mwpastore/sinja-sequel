@@ -12,10 +12,15 @@ module Sinja
         [resource.pk, resource, opts]
       end
 
-      def add_remove(association, rios, try_convert=:to_i)
+      def add_remove(association, rios, try_convert=:to_i, **filters, &block)
         meth_suffix = association.to_s.singularize
         add_meth = "add_#{meth_suffix}".to_sym
         remove_meth = "remove_#{meth_suffix}".to_sym
+
+        if block
+          filters[:add] ||= block
+          filters[:remove] ||= block
+        end
 
         dataset = resource.send("#{association}_dataset")
         klass = dataset.association_reflection.associated_class
@@ -29,14 +34,14 @@ module Sinja
 
           (new_ids - ids_in_common).each do |id|
             subresource = klass.with_pk!(id)
-            resource.send(add_meth, subresource) \
-              unless block_given? && !yield(subresource)
+            next if filters[:add] && !filters[:add].(subresource)
+            resource.send(add_meth, subresource)
           end
 
           (old_ids - ids_in_common).each do |id|
             subresource = klass.with_pk!(id)
-            resource.send(remove_meth, subresource) \
-              unless block_given? && !yield(subresource)
+            next if filters[:remove] && !filters[:remove].(subresource)
+            resource.send(remove_meth, subresource)
           end
 
           resource.reload
@@ -58,8 +63,8 @@ module Sinja
         transaction do
           resource.lock!
           venn(operator, association, rios, try_convert) do |subresource|
-            resource.send(meth, subresource) \
-              unless block_given? && !yield(subresource)
+            next if block_given? && !yield(subresource)
+            resource.send(meth, subresource)
           end
           resource.reload
         end
