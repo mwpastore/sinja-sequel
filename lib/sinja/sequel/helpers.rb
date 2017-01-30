@@ -5,7 +5,7 @@ module Sinja
   module Sequel
     module Helpers
       def self.included(base)
-        base.prepend Core
+        base.prepend(Core)
       end
 
       def next_pk(resource, opts={})

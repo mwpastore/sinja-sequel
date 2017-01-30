@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require 'forwardable'
-require 'set'
 
 require 'sequel'
 
@@ -17,13 +16,22 @@ module Sinja
           c.not_found_exceptions << ::Sequel::NoMatchingRow
           c.validation_exceptions << ::Sequel::ValidationFailed
           c.validation_formatter = proc do |e|
-            lookup = e.model.class.associations.to_set
-            e.errors.keys.zip(e.errors.full_messages)
-              .map { |a| a << :relationships if lookup.include?(a.first) }
+            typeof = e.model.class.associations
+              .map { |k| [k, :relationships] }.to_h
+              .tap { |h| h.default = :attributes }
+
+            e.errors.flat_map do |ee|
+              next [[nil, ee]] if ee.is_a?(::Sequel::LiteralString)
+
+              key, messages = *ee
+              Array(messages).map do |message|
+                [key, "#{key} #{message}", typeof[key]]
+              end
+            end
           end
         end
 
-        base.prepend Pagination if ::Sequel::Model.db.dataset.respond_to?(:paginate)
+        base.prepend(Pagination) if ::Sequel::Model.db.dataset.respond_to?(:paginate)
       end
 
       def self.included(_)
