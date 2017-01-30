@@ -323,6 +323,10 @@ DB = Sequel.connect ENV['DB_URL']
 OTHER_DB = Sequel.connect ENV['OTHER_DB_URL']
 OTHER_DB.extension :pagination
 
+# Sequel::Model.db now points to DB, which does not support pagination, so
+# pagination will not be automatically enabled. We'll point Sinja::Sequel at
+# OTHER_DB instead, and manually enable pagination...
+
 class MyApp < Sinatra::Base
   register Sinja
   register Sinja::Sequel
