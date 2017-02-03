@@ -266,9 +266,9 @@ end
 After registering the extension, the `resource`, `has_many`, and `has_one` DSL
 keywords will generate basic action helpers.
 
-* `resource` and `has_many` take an optional second argument that specifies the
-  method to use to cast the ID of the resource or each resource identifier
-  object (`:to_i` by default).
+* `resource` and `has_many`, and `has_one` take an optional second argument
+  that specifies the method to use to cast the ID of the resource or resource
+  identifier object(s) (`:to_i` by default).
 
 * Optionally define a `settable_fields` helper in each resource that returns an
   array of symbols to pass to `Sequel::Model#set_fields`.

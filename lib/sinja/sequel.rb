@@ -63,7 +63,7 @@ module Sinja
     end
 
     module Resource
-      def has_one(rel, &block)
+      def has_one(rel, try_convert=:to_i, &block)
         super(rel) do
           pluck do
             resource.send(rel)
@@ -76,7 +76,7 @@ module Sinja
 
           graft(:sideload_on=>%i[create update]) do |rio|
             klass = resource.class.association_reflection(rel).associated_class
-            resource.send("#{rel}=", klass.with_pk!(rio[:id]))
+            resource.send("#{rel}=", klass.with_pk!(rio[:id].send(try_convert)))
             resource.save_changes(:validate=>!sideloaded?)
           end
 
