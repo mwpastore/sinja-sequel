@@ -20,7 +20,7 @@ module Sinja
           end
 
           define_method(:find) do |id|
-            dataset[id.send(try_convert)]
+            dataset.with_pk(id.send(try_convert))
           end
         end
 
