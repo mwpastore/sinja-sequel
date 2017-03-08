@@ -270,9 +270,6 @@ keywords will generate basic action helpers.
   that specifies the method to use to cast the ID of the resource or resource
   identifier object(s) (`:to_i` by default).
 
-* Optionally define a `settable_fields` helper in each resource that returns an
-  array of symbols to pass to `Sequel::Model#set_fields`.
-
 * The generated action helpers will be unrestricted by default.
 
 * The generated `create` action helper does not support client-generated IDs.

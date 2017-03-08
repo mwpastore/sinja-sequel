@@ -36,22 +36,14 @@ module Sinja
 
         create do |attr|
           tmp = klass.new
-          if respond_to?(:settable_fields)
-            tmp.set_fields(attr, settable_fields)
-          else
-            tmp.set(attr)
-          end
+          tmp.set(attr)
           tmp.save(:validate=>false)
           next_pk tmp
         end
 
         update do |attr|
-          if respond_to?(:settable_fields)
-            resource.update_fields(attr, settable_fields, :validate=>false, :missing=>:skip)
-          else
-            resource.set(attr)
-            resource.save_changes(:validate=>false)
-          end
+          resource.set(attr)
+          resource.save_changes(:validate=>false)
         end
 
         destroy do
