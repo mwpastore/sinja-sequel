@@ -8,10 +8,10 @@ module Sinja
       app.helpers Helpers
     end
 
-    def resource(res, try_convert=:to_i, &block)
+    def resource(res, try_convert=:to_i, **opts, &block)
       klass = res.to_s.classify.constantize
 
-      super(res) do
+      super(res, **opts) do
         register Resource
 
         helpers do
@@ -27,7 +27,7 @@ module Sinja
         show
 
         show_many do |ids|
-          dataset.where(klass.primary_key=>ids.map!(&try_convert)).all
+          dataset.where_all(klass.primary_key=>ids.map!(&try_convert))
         end
 
         index do
