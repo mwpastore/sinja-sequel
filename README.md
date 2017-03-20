@@ -261,7 +261,8 @@ class MyApp < Sinatra::Base
 end
 ```
 
-**Note that registering the extension will automatically include Helpers!**
+**Note that registering the extension will automatically include Helpers and
+prepend Core!**
 
 After registering the extension, the `resource`, `has_many`, and `has_one` DSL
 keywords will generate basic action helpers.

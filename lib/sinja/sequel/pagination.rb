@@ -15,10 +15,13 @@ module Sinja
       end
 
       def page(collection, opts)
-        collection = collection.dataset unless collection.respond_to?(:paginate)
+        return collection, {} unless collection.respond_to?(:paginate) ||
+          collection.respond_to?(:dataset) && (collection = collection.dataset).respond_to?(:paginate)
 
         opts = settings._sinja.page_using.merge(opts)
-        collection = collection.paginate opts[:number].to_i, opts[:size].to_i,
+        collection = collection.paginate \
+          opts[:number].to_i,
+          opts[:size].to_i,
           (opts[:record_count].to_i if opts[:record_count])
 
         # Attributes common to all pagination links
