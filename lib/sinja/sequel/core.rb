@@ -53,6 +53,16 @@ module Sinja
       def validate!
         raise ::Sequel::ValidationFailed, resource unless resource.valid?
       end
+
+      def serialize_linkage(*, **options)
+        options[:skip_collection_check] = true
+        super
+      end
+
+      def serialize_model(*, **options)
+        options[:skip_collection_check] = true
+        super
+      end
     end
   end
 end
