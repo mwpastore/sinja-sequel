@@ -26,7 +26,7 @@ module Sinja
         klass = dataset.association_reflection.associated_class
 
         # does not / will not work with composite primary keys
-        new_ids = rios.map { |rio| rio[:id].send(try_convert) }
+        new_ids = rios.map { |rio| proc(&try_convert).(rio[:id]) }
         transaction do
           resource.lock!
           old_ids = dataset.select_map(klass.primary_key)
@@ -74,7 +74,7 @@ module Sinja
         dataset = resource.send("#{association}_dataset")
         klass = dataset.association_reflection.associated_class
         # does not / will not work with composite primary keys
-        rios.map { |rio| rio[:id].send(try_convert) }
+        rios.map { |rio| proc(&try_convert).(rio[:id]) }
           .send(operator, dataset.select_map(klass.primary_key))
           .each { |id| yield klass.with_pk!(id) }
       end

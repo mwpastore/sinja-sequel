@@ -20,7 +20,7 @@ module Sinja
           end
 
           define_method(:find) do |id|
-            dataset.with_pk(id.send(try_convert))
+            dataset.with_pk(proc(&try_convert).(id))
           end
         end
 
@@ -68,7 +68,7 @@ module Sinja
 
           graft(:sideload_on=>%i[create update]) do |rio|
             klass = resource.class.association_reflection(rel).associated_class
-            resource.send("#{rel}=", klass.with_pk!(rio[:id].send(try_convert)))
+            resource.send("#{rel}=", klass.with_pk!(proc(&try_convert).(rio[:id])))
             resource.save_changes(:validate=>!sideloaded?)
           end
 
