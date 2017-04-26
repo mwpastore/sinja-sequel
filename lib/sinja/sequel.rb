@@ -8,10 +8,10 @@ module Sinja
       app.helpers Helpers
     end
 
-    def resource(res, try_convert=:to_i, **opts, &block)
+    def sequel_resource(res, try_convert=:to_i, **opts, &block)
       klass = opts.fetch(:class) { res.to_s.classify.constantize }
 
-      super(res, **opts) do
+      resource(res, **opts) do
         register Resource
 
         helpers do
@@ -57,8 +57,8 @@ module Sinja
     end
 
     module Resource
-      def has_one(rel, try_convert=:to_i, &block)
-        super(rel) do
+      def sequel_has_one(rel, try_convert=:to_i, &block)
+        has_one(rel) do
           pluck do
             resource.send(rel)
           end
@@ -78,8 +78,8 @@ module Sinja
         end
       end
 
-      def has_many(rel, try_convert=:to_i, &block)
-        super(rel) do
+      def sequel_has_many(rel, try_convert=:to_i, &block)
+        has_many(rel) do
           fetch do
             resource.send("#{rel}_dataset")
           end
