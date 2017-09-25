@@ -65,7 +65,7 @@ module Sinja
 
           prune(:sideload_on=>:update) do
             resource.send("#{rel}=", nil)
-            resource.save_changes
+            resource.save_changes(:validate=>!sideloaded?)
           end
 
           graft(:sideload_on=>%i[create update]) do |rio|
