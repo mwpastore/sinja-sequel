@@ -15,9 +15,11 @@ module Sinja
         register Resource
 
         helpers do
-          define_method(:dataset) do
+          define_method(:default_dataset) do
             klass.dataset
           end
+
+          alias_method :dataset, :default_dataset
 
           define_method(:find) do |id|
             dataset.with_pk(proc(&try_convert).(id))
