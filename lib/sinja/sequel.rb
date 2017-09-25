@@ -9,7 +9,7 @@ module Sinja
     end
 
     def resource(res, try_convert=:to_i, **opts, &block)
-      klass = res.to_s.classify.constantize
+      klass = opts.fetch(:class) { res.to_s.classify.constantize }
 
       super(res, **opts) do
         register Resource
