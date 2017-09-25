@@ -16,6 +16,17 @@ module Sinja
           c.not_found_exceptions << ::Sequel::NoMatchingRow
           c.validation_exceptions << ::Sequel::ValidationFailed
           c.validation_formatter = proc do |e|
+            e.errors.keys.each do |column|
+              if assocs = e.model.class.autoreloading_associations[column]
+                # copy errors attached to a FK column to the relevant association
+                assocs.each do |assoc|
+                  e.errors[assoc] = e.errors[column]
+                end
+
+                e.errors.delete(column)
+              end
+            end
+
             typeof = e.model.class.associations
               .map { |k| [k, :relationships] }.to_h
               .tap { |h| h.default = :attributes }
