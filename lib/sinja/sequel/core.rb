@@ -53,13 +53,13 @@ module Sinja
 
       def_delegator :database, :transaction
 
-      define_method :filter, proc(&:where)
+      define_method :filter, &:where
 
       def sort(collection, fields)
         collection.order(*fields.map { |k, v| ::Sequel.send(v, k) })
       end
 
-      define_method :finalize, proc(&:all)
+      define_method :finalize, &:all
 
       def validate!
         raise ::Sequel::ValidationFailed, resource unless resource.valid?
