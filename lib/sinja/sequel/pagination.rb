@@ -3,7 +3,7 @@ module Sinja
   module Sequel
     module Pagination
       def self.prepended(base)
-        base.sinja { |c| c.page_using = {
+        base.sinja.configure { |c| c.page_using = {
           :number=>1,
           :size=>10,
           :record_count=>nil

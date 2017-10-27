@@ -11,7 +11,7 @@ module Sinja
       extend Forwardable
 
       def self.prepended(base)
-        base.sinja do |c|
+        base.sinja.configure do |c|
           c.conflict_exceptions << ::Sequel::ConstraintViolation
           c.not_found_exceptions << ::Sequel::NoMatchingRow
           c.validation_exceptions << ::Sequel::ValidationFailed
