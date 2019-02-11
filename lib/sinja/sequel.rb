@@ -37,10 +37,7 @@ module Sinja
         end
 
         create do |attr|
-          tmp = klass.new
-          tmp.set(attr)
-          tmp.save(:validate=>false)
-          next_pk tmp
+          next_pk klass.new(attr)
         end
 
         update do |attr|

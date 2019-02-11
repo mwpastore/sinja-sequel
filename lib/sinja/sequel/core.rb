@@ -65,6 +65,11 @@ module Sinja
         raise ::Sequel::ValidationFailed, resource unless resource.valid?
       end
 
+      def after_create
+        resource.save(:validate=>false)
+        resource.pk
+      end
+
       def serialize_linkage(*, **options)
         options[:skip_collection_check] = true
         super
